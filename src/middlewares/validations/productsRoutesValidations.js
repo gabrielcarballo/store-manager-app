@@ -1,4 +1,4 @@
-const db = require('../../utils/connection');
+const db = require('../../models/connection');
 
 const productRoutesValidations = async (req, res, next) => {
   const { id } = req.params;
