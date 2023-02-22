@@ -31,6 +31,7 @@ const [[dataToUser]] = await db
 .execute('SELECT * FROM StoreManager.products WHERE name=?;', [name]);
 res.status(201).json(dataToUser);
 });
+
 module.exports = {
   mainProductRoute,
   productRouteByID,
