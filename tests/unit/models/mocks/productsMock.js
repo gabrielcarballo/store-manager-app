@@ -1,4 +1,4 @@
-module.exports = 
+const db =
   [
     {
       "id": 1,
@@ -13,3 +13,5 @@ module.exports =
       "name": "Escudo do Capitão América"
     }
   ];
+
+module.exports = { db };
