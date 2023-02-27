@@ -15,9 +15,14 @@ const getProductById = async (req, res) => {
 const addProduct = async (req, res) => {
   const { name } = req.body;
   const { message, type } = await productServices.addProduct(name);
-  if (type === 'EMPTY_NAME') return res.status(400).json({ message });
-  if (type === 'NAME_TOO_SHORT') return res.status(422).json({ message });
-  return res.status(201).json(message);
+  switch (type) {
+    case 'EMPTY_NAME':
+      return res.status(400).json({ message });
+    case 'NAME_TOO_SHORT':
+      return res.status(422).json({ message });
+    default:
+      res.status(201).json(message);
+  }
 };
 module.exports = {
   getAllProducts,
