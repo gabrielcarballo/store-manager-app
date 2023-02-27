@@ -1,5 +1,3 @@
-const productsModel = require('./products.routes');
+const productsModel = require('../routes/products.routes');
 
-module.exports = {
-  productsModel,
-};
+module.exports = productsModel;
