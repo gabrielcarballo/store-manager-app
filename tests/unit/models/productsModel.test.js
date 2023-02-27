@@ -25,7 +25,14 @@ describe('Products route tests', function() {
 
     it('should return product by Id', async function(){
       const expectedDB = await productsModel.getProductById(1);
-      expect(expectedDB).to.be.deep.equal(db[0])
+      expect(expectedDB).to.be.deep.equal(db[0]);
+    })
+
+    it('should return the added product', async function(){
+      const productToAdd = {"name": "Laço da Verdade"};
+      const expectedDB = await productsModel.addProduct(productToAdd);
+      db.push({"id": db.length+1, "name": "Laço da Verdade" });
+      expect(expectedDB).to.be.deep.equal(db);
     })
   
 });

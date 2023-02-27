@@ -1,14 +1,17 @@
-const addProductsRoutesValidations = (req, res, next) => {
-  const { name } = req.body;
+const addProductsRoutesValidations = async (name) => {
   if (!name) {
-    res.status(400)
-      .send({ message: '"name" is required' });
+    return {
+      type: 'EMPTY_NAME',
+      message: '"name" is required',
+    };
   }
   if (name.length < 5) {
-    res.status(422)
-      .send({ message: '"name" length must be at least 5 characters long' });
+    return {
+      type: 'NAME_TOO_SHORT',
+      message: '"name" length must be at least 5 characters long',
+    };
   }
-  next();
+  return false;
 };
 
 module.exports = addProductsRoutesValidations;
