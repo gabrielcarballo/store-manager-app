@@ -18,9 +18,9 @@ const getProductById = async (id) => {
 };
 
 const addProduct = async (name) => {
-  const productAdded = await productModel.addProduct(name);
   const isNameValid = await validations.addProductsValidations(name);
   if (isNameValid) return { type: isNameValid.type, message: isNameValid.message };
+  const productAdded = await productModel.addProduct(name);
   return { type: null, message: productAdded };
 };
 
