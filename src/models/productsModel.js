@@ -1,4 +1,5 @@
-const connection = require('../connection')
+const connection = require('../connection');
+const camelize = require('camelize');
 
 const getAllProducts = async function () {
   const [result] = await connection
@@ -9,7 +10,7 @@ const getAllProducts = async function () {
 const getProductById = async function(id) {
   const [[result]] = await connection
     .execute('SELECT * FROM StoreManager.products WHERE id=? ORDER BY id;', [id]);
-  return result;
+  return camelize(result);
 };
 
 /* const addProduct = async function(name) {

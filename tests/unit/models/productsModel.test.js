@@ -23,10 +23,10 @@ describe('Products route tests', function() {
       expect(expectedDB).to.be.deep.equal(db);
     });
 
-    /* it('should return product by Id', async function(id){
+    it('should return product by Id', async function(id){
       const expectedDB = await productsModel.getProductById(id);
       expect(expectedDB).to.be.deep.equal(db[0])
-    }) */
+    })
   
 });
 });
