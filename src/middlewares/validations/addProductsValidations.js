@@ -11,5 +11,4 @@ const addProductsRoutesValidations = (req, res, next) => {
   next();
 };
 
-module.exports =
-  addProductsRoutesValidations;
+module.exports = addProductsRoutesValidations;
