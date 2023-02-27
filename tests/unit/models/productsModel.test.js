@@ -23,8 +23,8 @@ describe('Products route tests', function() {
       expect(expectedDB).to.be.deep.equal(db);
     });
 
-    it('should return product by Id', async function(id){
-      const expectedDB = await productsModel.getProductById(id);
+    it('should return product by Id', async function(){
+      const expectedDB = await productsModel.getProductById(1);
       expect(expectedDB).to.be.deep.equal(db[0])
     })
   

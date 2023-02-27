@@ -9,7 +9,7 @@ const productsRoutes = express.Router();
 
 productsRoutes.get('/products', productsController.getAllProducts);
 
-/*  productsRoutes.get('/products/:id', getAllProductsMidValidation, OQFAZ); */
+ productsRoutes.get('/products/:id', productsController.getProductById);
 
 /* roductsRoutes.post('/products', addProductsMidValidation, OQFAZ);
  */

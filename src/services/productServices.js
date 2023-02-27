@@ -6,11 +6,18 @@ const getAllProducts = async () => {
   return { type: null, message: allProducts };
 };
 
-/* const getProductById = async function(id) {
+const getProductById = async (id) => {
   const productById = await productModel.getProductById(id);
-  if
-} */
+  if (!productById) {
+ return {
+    type: 'PRODUCT_NOT_FOUND',
+    message: 'Product not found',
+  }; 
+}
+  return { type: null, message: productById };
+};
 
 module.exports = {
   getAllProducts,
+  getProductById,
 };
