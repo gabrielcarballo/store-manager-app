@@ -1,4 +1,4 @@
-const db =
+const allProductsMock =
   [
     {
       "id": 1,
@@ -14,4 +14,4 @@ const db =
     }
   ];
 
-module.exports = db ;
+module.exports = allProductsMock ;
