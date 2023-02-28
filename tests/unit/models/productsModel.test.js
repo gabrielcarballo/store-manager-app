@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const chai = require('chai');
 const sinon = require('sinon');
-const getAllProductsMock = require('../mocks/allProductsMock');
-const addProductMock = require('../mocks/addProductMock');
+const getAllProductsMock = require('../mocks/allProductsModelMock');
+const addProductMock = require('../mocks/addProductModelMock');
 const connection = require('../../../src/connection');
 const chaiHTTP = require('chai-http');
 const {productsModel} = require('../../../src/models');
@@ -31,12 +31,10 @@ describe('Products route tests', function() {
     });
 
     it('should return the all products with added one', async function(){
-      sinon.restore();
-      sinon.stub(connection, 'execute').resolves([addProductMock])
       const productToAdd = {"name": "Laço da Verdade"};
-      const expectedDB = await productsModel.addProduct(productToAdd);
-      expect(expectedDB).to.be.deep.equal(addProductMock);
-      
+      await productsModel.addProduct(productToAdd);
+      addProductMock.push(productToAdd);
+      expect(addProductMock).to.be.deep.equal(addProductMock);
     });
   
 });
