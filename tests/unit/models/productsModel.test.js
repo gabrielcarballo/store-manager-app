@@ -11,7 +11,7 @@ const {productsModel} = require('../../../src/models');
 chai.use(chaiHTTP);
 
 
-describe('Products route tests', function() {
+describe('Products Model layer tests', function() {
   describe('/products route GET tests', function() {
     afterEach(function() {
       sinon.restore();
