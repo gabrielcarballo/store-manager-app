@@ -25,7 +25,6 @@ describe('Products Service layer tests', function () {
   it('Should type obj with product filtered by his ID does not exist', async () => {
     sinon.stub(productsModel, 'getProductById').resolves(allProductsMock[3]);
     const validIdTest = await productServices.getProductById(4);
-    console.log(validIdTest);
     expect(validIdTest).to.be.deep.equal({
       type: 'PRODUCT_NOT_FOUND',
       message: 'Product not found',
@@ -45,7 +44,6 @@ describe('Products Service layer tests', function () {
   it('Should type obj with product filtered by his ID', async () => {
     sinon.stub(productsModel, 'getProductById').resolves(allProductsMock[2]);
     const validIdTest = await productServices.getProductById(1);
-    console.log(validIdTest);
     expect(validIdTest.message).to.be.deep.equal({
       "id": 3,
       "name": "Escudo do Capitão América"
