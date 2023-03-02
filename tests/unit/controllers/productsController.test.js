@@ -91,4 +91,29 @@ describe('Middleware validations tests', () => {
       message: '"name" length must be at least 5 characters long',
     });
   });
+
+  describe('UpdateProduct tests', function(){
+    it('Should return the respective validations of name', async() => {
+      sinon.restore();
+      const req = {
+         body: { name: ''},
+         params: {id: 1},
+      };
+      sinon.stub(productServices, 'updateProduct').resolves({
+        type: 'EMPTY_NAME',
+        message: '"name" is required',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+            type: 'EMPTY_NAME',
+            message: '"name" is required',
+        })
+      }
+      await productsController.updatedProduct(req, res);
+
+      expect(res.status.calledOnceWith(400)).to.be.true;
+     
+    })
+  });
 })
