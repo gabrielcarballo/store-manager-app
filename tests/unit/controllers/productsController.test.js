@@ -113,7 +113,72 @@ describe('Middleware validations tests', () => {
       await productsController.updatedProduct(req, res);
 
       expect(res.status.calledOnceWith(400)).to.be.true;
-     
-    })
+    });
+    it('Should return short name validations', async() => {
+      sinon.restore();
+      const req = {
+         body: { name: 'aaa'},
+         params: {id: 1},
+      };
+      sinon.stub(productServices, 'updateProduct').resolves({
+        type: 'NAME_TOO_SHORT',
+        message: '"name" length must be at least 5 characters long',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+            type: 'NAME_TOO_SHORT',
+            message: '"name" length must be at least 5 characters long',
+        })
+      }
+      await productsController.updatedProduct(req, res);
+
+      expect(res.status.calledOnceWith(422)).to.be.true;
+    });
+
+    it('Should return invalid ID validations', async() => {
+      sinon.restore();
+      const req = {
+         body: { name: 'Doomhammer'},
+         params: {id: 99999},
+      };
+      sinon.stub(productServices, 'updateProduct').resolves({
+        type: 'PRODUCT_NOT_FOUND',
+        message: 'Product not found',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: 'PRODUCT_NOT_FOUND',
+          message: 'Product not found',
+        })
+      }
+      await productsController.updatedProduct(req, res);
+
+      expect(res.status.calledOnceWith(404)).to.be.true;
+    });
+
+    it('Should return as expected when args are valid', async() => {
+      sinon.restore();
+      const req = {
+         body: { name: 'Doomhammer'},
+         params: {id: 1},
+      };
+      sinon.stub(productServices, 'updateProduct').resolves({
+        type: null,
+        message: req.body,
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: null,
+          message: req.body,
+        })
+      }
+      await productsController.updatedProduct(req, res);
+
+      expect(res.status.calledOnceWith(200)).to.be.true;
+    });
+
   });
 })
