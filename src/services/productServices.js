@@ -9,11 +9,11 @@ const getAllProducts = async () => {
 const getProductById = async (id) => {
   const productById = await productModel.getProductById(id);
   if (!productById) {
- return {
-    type: 'PRODUCT_NOT_FOUND',
-    message: 'Product not found',
-  }; 
-}
+    return {
+      type: 'PRODUCT_NOT_FOUND',
+      message: 'Product not found',
+    };
+  }
   return { type: null, message: productById };
 };
 
@@ -24,8 +24,22 @@ const addProduct = async (name) => {
   return { type: null, message: productAdded };
 };
 
+const updateProduct = async (name, id) => {
+  const isNameValid = await validations.addProductsValidations(name);
+  if (isNameValid) return { type: isNameValid.type, message: isNameValid.message };
+  const updatedProduct = await productModel.updateProduct(name, id);
+  if (!updatedProduct) {
+    return {
+      type: 'PRODUCT_NOT_FOUND',
+      message: 'Product not found',
+    };
+  }
+  return { type: null, message: updatedProduct };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
+  updateProduct,
 };

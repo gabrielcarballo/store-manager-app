@@ -18,11 +18,21 @@ const addProduct = async (name) => {
     [name]);
   const [[dataToUser]] = await connection
     .execute('SELECT * FROM StoreManager.products WHERE name=?;', [name]);
-    return dataToUser;
+  return dataToUser;
+};
+
+const updateProduct = async (name, id) => {
+  await connection.execute(
+    'UPDATE StoreManager.products SET name=? WHERE id=?;', [name, id],
+  );
+  const [[result]] = await connection
+    .execute('SELECT * FROM StoreManager.products WHERE name=?;', [name]);
+  return result;
 };
 
 module.exports = {
   getAllProducts,
   getProductById,
-  addProduct, 
+  addProduct,
+  updateProduct,
 };

@@ -50,6 +50,22 @@ describe('Products Service layer tests', function () {
     });
   });
 
+  it('Should validate name args on updateProduct', async() => {
+    sinon.stub(productsModel, 'updateProduct').resolves(allProductsMock);
+    const noName = await productServices.updateProduct();
+    const shortName = await productServices.updateProduct('a');
+    const validName = await productServices.updateProduct('Martelo do Batman', 1);
+    expect(noName.type).to.be.deep.equal('EMPTY_NAME');
+    expect(shortName.type).to.be.deep.equal('NAME_TOO_SHORT');
+    expect(validName.type).to.be.deep.equal(null);
+  });
+
+  it('Should validate id args on updateProduct', async() => {
+    sinon.stub(productsModel, 'updateProduct').resolves(allProductsMock[4]);
+    const noName = await productServices.updateProduct();
+    const invalidId = await productServices.updateProduct('Martelo do Batman', 4);
+    expect(invalidId.type).to.be.deep.equal('PRODUCT_NOT_FOUND')
+  });
 
   
 });

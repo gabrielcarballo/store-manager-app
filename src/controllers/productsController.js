@@ -24,8 +24,25 @@ const addProduct = async (req, res) => {
       res.status(201).json(message);
   }
 };
+
+  const updatedProduct = async (req, res) => {
+    const { name } = req.body;
+    const { id } = req.params;
+    const { message, type } = await productServices.updateProduct(name, id);
+    switch (type) {
+      case 'EMPTY_NAME':
+      return res.status(400).json({ message });
+    case 'NAME_TOO_SHORT':
+      return res.status(422).json({ message });
+    case 'PRODUCT_NOT_FOUND':
+      return res.status(404).json({ message });
+      default:
+        return res.status(200).json(message);
+    }
+  };
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
+  updatedProduct,
 };
