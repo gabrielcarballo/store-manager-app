@@ -6,6 +6,7 @@ const connection = require('../../../src/connection');
 const chaiHTTP = require('chai-http');
 const {productsModel} = require('../../../src/models');
 const mock = require('../mocks/allProductsModelMock');
+const allProductsMock = require('../mocks/allProductsModelMock');
 
 
 chai.use(chaiHTTP);
@@ -13,9 +14,7 @@ chai.use(chaiHTTP);
 
 describe('Products Model layer tests', function() {
   describe('/products route GET tests', function() {
-    afterEach(function() {
-      sinon.restore();
-      });
+   
 
     it('should return all products', async function(){
       sinon.stub(connection, 'execute').resolves([mock]);
@@ -55,5 +54,20 @@ describe('Products Model layer tests', function() {
         "name": "Martelo do Batman"
       });
     });
+
+    it('Should delete the product based on id passed as arg', async() => {
+      const productId = 1;
+      sinon.stub(connection, 'execute').resolves({ affectedRows: 1 });
+      const result = await productsModel.deleteProduct(productId);
+      expect(connection.execute.calledOnce).to.be.true;
+      expect(connection.execute.firstCall.args[0]).to.equal('DELETE FROM StoreManager.products WHERE id=?');
+      expect(connection.execute.firstCall.args[1]).to.deep.equal([productId]);
+      expect(result.affectedRows).to.equal(1);
+    })
 });
+    
+
+    afterEach(function() {
+      sinon.restore();
+      });
 });
