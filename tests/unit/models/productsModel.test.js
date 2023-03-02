@@ -13,8 +13,6 @@ chai.use(chaiHTTP);
 
 
 describe('Products Model layer tests', function() {
-  describe('/products route GET tests', function() {
-   
 
     it('should return all products', async function(){
       sinon.stub(connection, 'execute').resolves([mock]);
@@ -72,10 +70,10 @@ describe('Products Model layer tests', function() {
       expect(result.affectedRows).to.not.equal(2);
     });
    
+    afterEach(function() {
+      sinon.restore();
+    });
 });
     
 
-    afterEach(function() {
-      sinon.restore();
-      });
-});
+   

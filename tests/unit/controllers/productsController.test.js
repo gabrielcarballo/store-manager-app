@@ -6,7 +6,7 @@ const { productServices } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers')
 const allProductsMock = require('../mocks/allProductsModelMock');
 const sinonChai = require('sinon-chai');
-const {addProductsValidations} = require('../../../src/middlewares/validations')
+const { addProductsValidations } = require('../../../src/middlewares/validations')
 
 chai.use(sinonChai)
 chai.use(chaiHTTP);
@@ -71,11 +71,6 @@ describe('Products Controller layer tests', function () {
     expect(res.status).to.have.been.calledWith(201);
   });
 
-
-
-});
-
-describe('Middleware validations tests', () => {
   it('should return a EMPTY NAME type obj after Validation if no name has been passed as arg', async () => {
     const isNameValid = await addProductsValidations();
     expect(isNameValid).to.be.deep.equal({
@@ -92,12 +87,11 @@ describe('Middleware validations tests', () => {
     });
   });
 
-  describe('UpdateProduct tests', function(){
-    it('Should return the respective validations of name', async() => {
+    it('Should return the respective validations of name', async () => {
       sinon.restore();
       const req = {
-         body: { name: ''},
-         params: {id: 1},
+        body: { name: '' },
+        params: { id: 1 },
       };
       sinon.stub(productServices, 'updateProduct').resolves({
         type: 'EMPTY_NAME',
@@ -106,19 +100,21 @@ describe('Middleware validations tests', () => {
       const res = {
         status: sinon.stub().returnsThis(),
         json: sinon.stub().returns({
-            type: 'EMPTY_NAME',
-            message: '"name" is required',
+          type: 'EMPTY_NAME',
+          message: '"name" is required',
         })
       }
       await productsController.updatedProduct(req, res);
 
       expect(res.status.calledOnceWith(400)).to.be.true;
     });
-    it('Should return short name validations', async() => {
+
+
+    it('Should return short name validations', async () => {
       sinon.restore();
       const req = {
-         body: { name: 'aaa'},
-         params: {id: 1},
+        body: { name: 'aaa' },
+        params: { id: 1 },
       };
       sinon.stub(productServices, 'updateProduct').resolves({
         type: 'NAME_TOO_SHORT',
@@ -127,8 +123,8 @@ describe('Middleware validations tests', () => {
       const res = {
         status: sinon.stub().returnsThis(),
         json: sinon.stub().returns({
-            type: 'NAME_TOO_SHORT',
-            message: '"name" length must be at least 5 characters long',
+          type: 'NAME_TOO_SHORT',
+          message: '"name" length must be at least 5 characters long',
         })
       }
       await productsController.updatedProduct(req, res);
@@ -136,11 +132,11 @@ describe('Middleware validations tests', () => {
       expect(res.status.calledOnceWith(422)).to.be.true;
     });
 
-    it('Should return invalid ID validations', async() => {
+    it('Should return invalid ID validations', async () => {
       sinon.restore();
       const req = {
-         body: { name: 'Doomhammer'},
-         params: {id: 99999},
+        body: { name: 'Doomhammer' },
+        params: { id: 99999 },
       };
       sinon.stub(productServices, 'updateProduct').resolves({
         type: 'PRODUCT_NOT_FOUND',
@@ -158,11 +154,11 @@ describe('Middleware validations tests', () => {
       expect(res.status.calledOnceWith(404)).to.be.true;
     });
 
-    it('Should return as expected when args are valid', async() => {
+    it('Should return as expected when args are valid', async () => {
       sinon.restore();
       const req = {
-         body: { name: 'Doomhammer'},
-         params: {id: 1},
+        body: { name: 'Doomhammer' },
+        params: { id: 1 },
       };
       sinon.stub(productServices, 'updateProduct').resolves({
         type: null,
@@ -181,4 +177,6 @@ describe('Middleware validations tests', () => {
     });
 
   });
-})
+
+
+
