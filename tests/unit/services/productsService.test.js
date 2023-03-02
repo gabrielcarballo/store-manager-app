@@ -68,9 +68,9 @@ describe('Products Service layer tests', function () {
   });
 
   it('Should return error message if id has not been passed as arg', async() => {
-    sinon.stub(productsModel, 'deleteProduct').resolves(allProductsMock[10]);
-    const invalidId = await productServices.deleteProduct(4);
-    expect(invalidId.type).to.be.deep.equal('PRODUCT_NOT_FOUND')
+    sinon.stub(productsModel, 'deleteProduct').resolves({type: 'ID_NOT_PROVIDED'});
+    const invalidId = await productServices.deleteProduct('a');
+    expect(invalidId.type).to.be.deep.equal('ID_NOT_PROVIDED')
   });
 
   it('Should return correctly if id passed as args', async() => {

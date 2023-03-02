@@ -37,16 +37,22 @@ const updateProduct = async (name, id) => {
   return { type: null, message: updatedProduct };
 };
 
-  const deleteProduct = async (id) => {
-    const [deletedProduct] = await productModel.deleteProduct(id);
-    if (deletedProduct.affectedRows === 0) {
+const deleteProduct = async (id) => {
+  if (!id || typeof id !== 'number') {
  return {
+    type: 'ID_NOT_PROVIDED', message: 'id not provided',
+  }; 
+}
+  const [deletedProduct] = await productModel.deleteProduct(id);
+  if (deletedProduct.affectedRows === 0) {
+    return {
       type: 'PRODUCT_NOT_FOUND',
       message: 'Product not found',
-    }; 
-}
-    return { type: null, message: deletedProduct };
-  }; 
+    };
+  }
+  
+  return { type: null, message: deletedProduct };
+};
 
 module.exports = {
   getAllProducts,
