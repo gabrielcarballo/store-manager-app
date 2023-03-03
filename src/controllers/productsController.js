@@ -47,10 +47,8 @@ const addProduct = async (req, res) => {
     switch (type) {
       case 'PRODUCT_NOT_FOUND':
         return res.status(404).json({ message });
-        case 'ID_NOT_PROVIDED':
-          return res.status(404).json({ message });
       default:
-        return res.status(204).end();
+        return res.status(204).json([]);
     }
   };
 

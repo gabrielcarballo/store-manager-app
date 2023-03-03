@@ -176,6 +176,112 @@ describe('Products Controller layer tests', function () {
       expect(res.status.calledOnceWith(200)).to.be.true;
     });
 
+    it('Should return error when passing an invalid id on delete Route', async() => {
+      sinon.restore();
+      const req = {
+        params: { id: 99999 },
+      };
+      sinon.stub(productServices, 'deleteProduct').resolves({
+        type: 'PRODUCT_NOT_FOUND',
+        message: 'Product not found',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: 'PRODUCT_NOT_FOUND',
+          message: 'Product not found',
+        })
+      }
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status.calledOnceWith(404)).to.be.true;
+    });
+
+    it('Should return empty array and status 204 when passing an valid id on delete Route', async() => {
+      sinon.restore()
+      const req = {
+        params: { id: 1 },
+      };
+      sinon.stub(productServices, 'deleteProduct').resolves({
+        type: null,
+        message: [],
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: null,
+          message: [],
+        })
+      }
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status.calledOnceWith(204)).to.be.true;
+    });
+
+    it('Should return error message when name is null on addProduct Route', async() => {
+      sinon.restore();
+      const req = {
+        body: 'Martelo do Batman',
+      };
+      sinon.stub(productServices, 'addProduct').resolves({
+        type: 'EMPTY_NAME',
+        message: '"name" is required',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: 'EMPTY_NAME',
+          message: '"name" is required',
+        })
+      }
+      await productsController.addProduct(req, res);
+
+      expect(res.status.calledOnceWith(400)).to.be.true;
+    });
+
+    it('Should return error message when name too short on addProduct Route', async() => {
+      sinon.restore();
+      const req = {
+        body: 'M',
+      };
+      sinon.stub(productServices, 'addProduct').resolves({
+        type: 'NAME_TOO_SHORT',
+        message: '"name" length must be at least 5 characters long',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: 'NAME_TOO_SHORT',
+          message: '"name" length must be at least 5 characters long',
+        })
+      }
+      await productsController.addProduct(req, res);
+
+      expect(res.status.calledOnceWith(422)).to.be.true;
+    });
+
+    it('Should return error message when id is null on getByID Route', async() => {
+      sinon.restore();
+      const req = {
+        params: 9999,
+      };
+      sinon.stub(productServices, 'getProductById').resolves({
+        type: 'PRODUCT_NOT_FOUND',
+        message: 'Product not found',
+      });
+      const res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub().returns({
+          type: 'PRODUCT_NOT_FOUND',
+          message: 'Product not found',
+        })
+      }
+      await productsController.getProductById(req, res);
+
+      expect(res.status.calledOnceWith(404)).to.be.true;
+    });
+
+
   });
 
 
