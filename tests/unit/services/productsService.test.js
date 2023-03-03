@@ -12,7 +12,7 @@ chai.use(chaiHTTP);
 
 describe('Products Service layer tests', function () {
 
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore()
   });
 
@@ -31,7 +31,7 @@ describe('Products Service layer tests', function () {
     });
   });
 
-  it('Should return the error when name in addProduct func is not valid', async() => {
+  it('Should return the error when name in addProduct func is not valid', async () => {
     sinon.stub(productsModel, 'addProduct').resolves(allProductsMock[0]);
     const noName = await productServices.addProduct();
     const shortName = await productServices.addProduct('a');
@@ -50,7 +50,7 @@ describe('Products Service layer tests', function () {
     });
   });
 
-  it('Should validate name args on updateProduct', async() => {
+  it('Should validate name args on updateProduct', async () => {
     sinon.stub(productsModel, 'updateProduct').resolves(allProductsMock);
     const noName = await productServices.updateProduct();
     const shortName = await productServices.updateProduct('a');
@@ -60,28 +60,28 @@ describe('Products Service layer tests', function () {
     expect(validName.type).to.be.deep.equal(null);
   });
 
-  it('Should validate id args on updateProduct', async() => {
+  it('Should validate id args on updateProduct', async () => {
     sinon.stub(productsModel, 'updateProduct').resolves(allProductsMock[4]);
     const noName = await productServices.updateProduct();
     const invalidId = await productServices.updateProduct('Martelo do Batman', 4);
     expect(invalidId.type).to.be.deep.equal('PRODUCT_NOT_FOUND')
   });
 
-  it('Should return correctly if id passed as args', async() => {
+  it('Should return correctly if id passed as args', async () => {
     sinon.stub(productsModel, 'deleteProduct').resolves(allProductsMock);
     const result = await productServices.deleteProduct(1);
     expect(result.type).to.be.equal(null);
     expect(result.message).to.be.not.equal(null);
   });
 
-  it('Should return error message when id is null on getByID Route', async() => {
+  it('Should return error message when id is null on getByID Route', async () => {
     sinon.restore();
-   const result =  await productServices.deleteProduct(999999);
+    const result = await productServices.deleteProduct(999999);
 
     expect(result.type).to.be.deep.equal('PRODUCT_NOT_FOUND');
     expect(result.message).to.be.deep.equal('Product not found');
-    
+
   });
 
-  
+
 });

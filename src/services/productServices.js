@@ -45,12 +45,12 @@ const deleteProduct = async (id) => {
       message: 'Product not found',
     };
   }
-  
+
   return { type: null, message: deletedProduct };
 };
 
-const test1 = () => {};
-const test2 = () => {};
+const test1 = () => { };
+const test2 = () => { };
 
 module.exports = {
   getAllProducts,
