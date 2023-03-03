@@ -49,10 +49,15 @@ const deleteProduct = async (id) => {
   return { type: null, message: deletedProduct };
 };
 
+const test1 = () => {};
+const test2 = () => {};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
   updateProduct,
   deleteProduct,
+  test1,
+  test2,
 };

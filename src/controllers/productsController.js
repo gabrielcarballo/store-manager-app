@@ -52,10 +52,15 @@ const addProduct = async (req, res) => {
     }
   };
 
+  const test1 = () => {};
+const test2 = () => {};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addProduct,
   updatedProduct,
   deleteProduct,
+  test1,
+  test2,
 };
