@@ -1,75 +1,75 @@
 version: "3"
 
 services:
-  # Serviço que irá rodar o node
+  # Service that will run node
   node:
-    # Imagem base do container
+    # Base image of the container
     image: node:16.14
-    # Nome do container para facilitar execução
+    # Container name to facilitate execution
     container_name: store_manager
-    # Mesmo que `docker run -t`
+    # Same as `docker run -t`
     tty: true
-    # Mesmo que `docker run -i`
+    # Same as `docker run -i`
     stdin_open: true
-    # Substitui o comando padrão da imagem do node
-    command: bash # você pode subistituir `bash` por `npm run debug` para iniciar a API quando container for iniciado  
-    # Restarta a imagem caso algo a faça parar
+    # Replaces the default command of the node image
+    command: bash # you can replace `bash` with `npm run debug` to start the API when the container is started  
+    # Restarts the image if something makes it stop
     restart: always
-    # Diretório padrão de execução
+    # Default execution directory
     working_dir: /home/node/app
-    # Lista de volumes (diretórios) mapeados de fora para dentro do container
+    # List of volumes (directories) mapped from outside to inside the container
     volumes:
-      # Monta o diretório atual, com todos os dados do projeto, 
-      # dentro do diretório /app
+      # Mounts the current directory, with all project data, 
+      # inside the /app directory
       - ./:/home/node/app
-    # Lista de serviços do qual este serviço depende
+    # List of services on which this service depends
     depends_on:
-      # Precisa do banco funcionando antes de subir o node
+      # Needs the database running before bringing up the node
       - db
-    # Lista de portas mapeadas de dentro para fora do container
-    # na notação porta_de_fora:porta_de_dentro
+    # List of ports mapped from inside to outside the container
+    # in the notation outside_port:inside_port
     ports:
-      # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
+      # Exposes the default application port: change here if you use another port
       - 3000:3000
       - 9229:9229
-    # Configura as variáveis de ambiente dentro do container
+    # Configures the environment variables inside the container
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
-      MYSQL_HOST: db # Nome do service logo abaixo
+      MYSQL_HOST: db # Name of the service just below
       PORT: '3000'
       HOST: store_manager
     networks:
-      # Conecta esse serviço com a rede que criada
+      # Connects this service with the network that was created
       - store_manager_net
 
-  # Serviço que irá rodar o banco de dados
+  # Service that will run the database
   db:
     container_name: store_manager_db
     image: mysql:8.0.23
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      # Garanta que não haverá conflitos de porta com um banco que esteja
-      # rodando localmente
+      # Ensure that there will be no port conflicts with a database that is
+      # running locally
       - 3306:3306
     networks:
-      # Conecta esse serviço com a rede que criada 
+      # Connects this service with the network that was created 
       - store_manager_net
 
-# Lista de redes que os containeres irão utilizar
+# List of networks that the containers will use
 networks:
-  # Cria a rede que conecta os serviços `db` e `node` 
+  # Creates the network that connects the `db` and `node` services 
   store_manager_net:
-    # Específica o drive da rede
+    # Specifies the network driver
     driver: bridge
 
-# As chaves `tty`, `stdin_open` e `command` fazem com que o container fique
-# rodando em segundo plano, bem como tornam possível o uso do comando
-# `docker attach`, já deixando o terminal atual acoplado ao container, direto
-# no bash. Apesar disso, utilizar o attach mais de uma vez irá replicar o
-# terminal, portanto é melhor utilizar o comando `docker exec`.
+# The `tty`, `stdin_open` and `command` keys make the container keep
+# running in the background, as well as make it possible to use the command
+# `docker attach`, already attaching the current terminal to the container, directly
+# in bash. Despite this, using attach more than once will replicate the
+# terminal, so it is better to use the `docker exec` command.
 
-# A renomeação da rede padrão é feita pois caso contrário o nome da rede será
-# o nome do diretório onde o arquivo atual se encontra, o que pode dificultar
-# a listagem individual.
+# The renaming of the default network is done because otherwise the name of the network will be
+# the name of the directory where the current file is located, which can make it difficult
+# to list individually.
