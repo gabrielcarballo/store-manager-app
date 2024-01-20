@@ -174,7 +174,7 @@ Accessible through `/sales/:id`.
 - Test files in the `tests/unit` directory.
 - Tests must mock the database.
 
-## Create endpoint `products/search?q=searchTerm`
+## 18. Create endpoint `products/search?q=searchTerm`
 
 - Accessible through the URL `/products/search`.
 - Should bring products based on `q` from the database, if it exists.
